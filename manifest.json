@@ -1,0 +1,14 @@
+{
+  "name": "Edishome E-Ticaret Kar Hesaplayıcı",
+  "short_name": "Edishome",
+  "description": "Satış fiyatı, komisyon, kargo ve kar hesaplama",
+  "start_url": "/kar-hesaplayici/",
+  "display": "standalone",
+  "background_color": "#1e2330",
+  "theme_color": "#0056b3",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
