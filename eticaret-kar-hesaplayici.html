@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Edishome E-Ticaret Kar Hesaplayıcı</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg:      #1e2330;
+    --card:    #252d3d;
+    --input:   #2c3650;
+    --border:  #3a4460;
+    --accent:  #4f8ef7;
+    --green:   #10b981;
+    --red:     #ef4444;
+    --orange:  #f97316;
+    --purple:  #a78bfa;
+    --text:    #e8eaf0;
+    --muted:   #8899aa;
+  }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0056b3, #4f8ef7);
+    padding: 20px 20px 18px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0,86,179,.35);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 {
+    font-size: clamp(1rem, 4.5vw, 1.25rem);
+    font-weight: 700;
+    letter-spacing: .5px;
+  }
+
+  /* ── KART ── */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    margin: 16px;
+    padding: 22px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.3);
+  }
+
+  /* ── INPUT GRUP ── */
+  .input-grup { margin-bottom: 14px; }
+  .input-grup label {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .6px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .input-row {
+    display: flex;
+    align-items: center;
+    background: var(--input);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .input-row:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,.15); }
+  .input-row .birim {
+    padding: 0 12px;
+    color: var(--accent);
+    font-weight: 700;
+    font-size: .95rem;
+    white-space: nowrap;
+    user-select: none;
+  }
+  .input-row input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 1.05rem;
+    padding: 14px 12px 14px 0;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .input-row input::placeholder { color: var(--border); }
+
+  /* ── AYRAÇ ── */
+  .divider { height: 1px; background: var(--border); margin: 18px 0; }
+
+  /* ── SONUÇ SATIRI ── */
+  .sonuc-satir {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+  }
+  .sonuc-satir .etiket { font-size: .92rem; color: var(--text); }
+  .sonuc-satir .deger  { font-size: .95rem; font-weight: 700; color: var(--muted); }
+
+  /* ── SONUÇ KUTU ── */
+  .sonuc-kutu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--input);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-top: 12px;
+    border: 1.5px solid var(--border);
+    transition: border-color .3s;
+  }
+  .sonuc-kutu .etiket {
+    font-size: .72rem;
+    font-weight: 800;
+    color: var(--muted);
+    letter-spacing: .8px;
+    text-transform: uppercase;
+  }
+  .sonuc-kutu .deger {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--muted);
+    transition: color .3s;
+  }
+
+  /* ── TEMIZLE BUTONU ── */
+  .btn-temizle {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    background: var(--border);
+    color: var(--muted);
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, color .2s, transform .1s;
+    font-family: inherit;
+  }
+  .btn-temizle:active { transform: scale(.97); background: var(--accent); color: white; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: .75rem;
+    padding: 10px 16px 24px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🛒 Edishome E-Ticaret Kar Hesaplayıcı</h1>
+</header>
+
+<div class="card">
+
+  <div class="input-grup">
+    <label>Satış Fiyatı</label>
+    <div class="input-row">
+      <span class="birim">₺</span>
+      <input id="satis" type="number" inputmode="decimal" placeholder="0.00">
+    </div>
+  </div>
+
+  <div class="input-grup">
+    <label>Alış Fiyatı</label>
+    <div class="input-row">
+      <span class="birim">₺</span>
+      <input id="alis" type="number" inputmode="decimal" placeholder="0.00">
+    </div>
+  </div>
+
+  <div class="input-grup">
+    <label>Satış Komisyonu (%)</label>
+    <div class="input-row">
+      <span class="birim">%</span>
+      <input id="komisyon" type="number" inputmode="decimal" placeholder="0.00">
+    </div>
+  </div>
+
+  <div class="input-grup">
+    <label>Kargo Ücreti</label>
+    <div class="input-row">
+      <span class="birim">₺</span>
+      <input id="kargo" type="number" inputmode="decimal" placeholder="0.00">
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sonuc-satir">
+    <span class="etiket">Komisyon Tutarı</span>
+    <span class="deger" id="r-komisyon">—</span>
+  </div>
+  <div class="sonuc-satir">
+    <span class="etiket">Kargo Ücreti</span>
+    <span class="deger" id="r-kargo">—</span>
+  </div>
+
+  <div class="sonuc-kutu" id="kutu-kalan" style="border-color:#4f8ef7">
+    <span class="etiket">Kalan Tutar</span>
+    <span class="deger" id="r-kalan">—</span>
+  </div>
+
+  <div class="sonuc-kutu" id="kutu-kar" style="border-color:#10b981">
+    <span class="etiket">Toplam Kar</span>
+    <span class="deger" id="r-kar">—</span>
+  </div>
+
+  <div class="sonuc-kutu" id="kutu-yuzde" style="border-color:#a78bfa">
+    <span class="etiket">Kar Yüzdesi</span>
+    <span class="deger" id="r-yuzde">—</span>
+  </div>
+
+  <button class="btn-temizle" onclick="temizle()">Temizle</button>
+</div>
+
+<footer>Tüm hesaplamalar anlık güncellenir</footer>
+
+<script>
+  const ids = ['satis','komisyon','kargo','alis'];
+  ids.forEach(id => document.getElementById(id).addEventListener('input', hesapla));
+
+  function fmt(n) { return n.toLocaleString('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+  function hesapla() {
+    const satis    = parseFloat(document.getElementById('satis').value)    || 0;
+    const komOran  = parseFloat(document.getElementById('komisyon').value)  || 0;
+    const kargo    = parseFloat(document.getElementById('kargo').value)     || 0;
+    const alis     = parseFloat(document.getElementById('alis').value)      || 0;
+
+    const komTutar = satis * komOran / 100;
+    const kalan    = satis - komTutar - kargo;
+    const kar      = kalan - alis;
+    const karYuzde = alis > 0 ? (kar / alis * 100) : 0;
+
+    set('r-komisyon', `- ${fmt(komTutar)} ₺`, '#f97316');
+    set('r-kargo',    `- ${fmt(kargo)} ₺`,    '#f97316');
+    set('r-kalan',    `${fmt(kalan)} ₺`,       kalan >= 0 ? '#10b981' : '#ef4444');
+    set('r-kar',      `${fmt(kar)} ₺`,         kar   >= 0 ? '#10b981' : '#ef4444');
+    set('r-yuzde',    `% ${fmt(karYuzde)}`,    '#a78bfa');
+  }
+
+  function set(id, text, color) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.style.color = color;
+  }
+
+  function temizle() {
+    ids.forEach(id => document.getElementById(id).value = '');
+    ['r-komisyon','r-kargo','r-kalan','r-kar','r-yuzde'].forEach(id => {
+      const el = document.getElementById(id);
+      el.textContent = '—';
+      el.style.color = 'var(--muted)';
+    });
+  }
+</script>
+</body>
+</html>
