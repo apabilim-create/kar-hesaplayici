@@ -2,8 +2,14 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Edishome E-Ticaret Kar Hesaplayıcı</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0056b3">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Edishome">
+<link rel="apple-touch-icon" href="icon-180.png">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -26,7 +32,8 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100dvh;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
   }
 
   /* ── HEADER ── */
@@ -233,6 +240,11 @@
 
 <footer>Tüm hesaplamalar anlık güncellenir</footer>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
+</script>
 <script>
   const ids = ['satis','komisyon','kargo','alis'];
   ids.forEach(id => document.getElementById(id).addEventListener('input', hesapla));
